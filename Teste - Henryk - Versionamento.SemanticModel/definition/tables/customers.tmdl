@@ -1,0 +1,115 @@
+table customers
+	lineageTag: 196cecc5-9fd0-459b-ba55-d03ea753a01c
+
+	column customer_id
+		dataType: string
+		lineageTag: 9c268445-0c25-4f2a-98b5-07def07a9763
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		formatString: 0
+		lineageTag: eb49e800-e4da-45dd-acb7-f777b3914f6c
+		summarizeBy: none
+		sourceColumn: age
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_since
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 18e9e888-7220-4a0d-87aa-fa2d40dda092
+		summarizeBy: none
+		sourceColumn: customer_since
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column credit_limit
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f19997a-8b14-40f6-8cbf-055297786e81
+		summarizeBy: none
+		sourceColumn: credit_limit
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_monthly_spend
+		dataType: int64
+		formatString: 0
+		lineageTag: 1fc1a2d8-e68b-4676-b9be-835b223a5b81
+		summarizeBy: none
+		sourceColumn: avg_monthly_spend
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 6fae34b1-c17c-4356-a7e9-ab470090e43a
+		summarizeBy: none
+		sourceColumn: risk_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 22817f4e-5380-4e9b-a008-b5bceaa5d309
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_tier
+		dataType: string
+		lineageTag: bdcdaaf0-53b0-4d5f-ab0e-f3e9b36c5a35
+		summarizeBy: none
+		sourceColumn: account_tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: int64
+		formatString: 0
+		lineageTag: 265e7618-80ff-4976-85a9-1b828dde0157
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_score_faixa
+		dataType: string
+		lineageTag: 01df10c2-eb4d-43c9-8b79-1d1e98f56d4c
+		summarizeBy: none
+		sourceColumn: risk_score_faixa
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_faixa
+		dataType: string
+		lineageTag: a15018bf-8d87-4ca9-b5e0-ea991a4ce293
+		summarizeBy: none
+		sourceColumn: age_faixa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\rasko\OneDrive\Área de Trabalho\DataRunk\customers.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"customer_id", type text}, {"age", Int64.Type}, {"customer_since", type date}, {"credit_limit", Int64.Type}, {"avg_monthly_spend", Int64.Type}, {"risk_score", Int64.Type}, {"region", type text}, {"account_tier", type text}, {"is_active", Int64.Type}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "risk_score_faixa", each if [risk_score] <= 30 then "Baixo" else if [risk_score] <= 70 then "Médio" else "Alto"),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "age_faixa", each if [age] <= 25 then "18-25" else if [age] <= 40 then "26-40" else if [age] <= 60 then "41-60" else "60+")
+				in
+				    #"Added Custom1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "4a98e9bf55f1247f69d6",
+  "displayName": "Análise de Fraude por Segmento",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Background.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Background09612614110881268.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fit'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "196L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "297f71b27d56f0ea982a",
+      "target": "14ea0485e5d5de318c98",
+      "type": "DataFilter"
+    },
+    {
+      "source": "297f71b27d56f0ea982a",
+      "target": "dd894d1a6b55667fde7b",
+      "type": "DataFilter"
+    },
+    {
+      "source": "14ea0485e5d5de318c98",
+      "target": "297f71b27d56f0ea982a",
+      "type": "DataFilter"
+    },
+    {
+      "source": "14ea0485e5d5de318c98",
+      "target": "dd894d1a6b55667fde7b",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dd894d1a6b55667fde7b",
+      "target": "297f71b27d56f0ea982a",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dd894d1a6b55667fde7b",
+      "target": "14ea0485e5d5de318c98",
+      "type": "DataFilter"
+    }
+  ]
+}

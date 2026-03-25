@@ -1,0 +1,12 @@
+relationship AutoDetected_12c4f459-0606-4d1b-aca8-93af015a0163
+	fromColumn: transactions.customer_id
+	toColumn: customers.customer_id
+
+relationship f1368cea-37ae-b7f9-8cb3-a51b8d67c8b9
+	fromColumn: alerts.transaction_id
+	toColumn: transactions.transaction_id
+
+relationship 36dc261a-14d5-254b-3b4c-26e024642ae5
+	fromColumn: transactions.Date
+	toColumn: Dim_calendario.Date
+

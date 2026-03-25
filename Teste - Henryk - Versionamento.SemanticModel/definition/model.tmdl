@@ -1,0 +1,25 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["alerts","customers","transactions","Medidas","Dim_calendario","Agora"]
+
+annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+
+ref table alerts
+ref table customers
+ref table transactions
+ref table Medidas
+ref table Dim_calendario
+ref table Agora
+ref table 'blank zero'
+
+ref cultureInfo en-US
+

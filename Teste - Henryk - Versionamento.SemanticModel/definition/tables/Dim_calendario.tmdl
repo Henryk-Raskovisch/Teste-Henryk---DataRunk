@@ -1,0 +1,243 @@
+table Dim_calendario
+	lineageTag: cea0d71e-dc1e-4d2a-b7b2-01aa9e6077d4
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 0ae5a21d-0e6e-4dc4-a91c-adb80dd5bca5
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d177a61-0322-43b4-84da-714883157d89
+		summarizeBy: none
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Numero'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3783c3de-eced-4550-b9d9-0accb7f6bee0
+		summarizeBy: none
+		sourceColumn: Mes Numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dia
+		dataType: int64
+		formatString: 0
+		lineageTag: a63f02f6-80eb-4ec4-9f47-af313ec54926
+		summarizeBy: none
+		sourceColumn: Dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'AnoMes Num'
+		dataType: int64
+		formatString: 0
+		lineageTag: 787ac178-85b2-4622-869d-377034208052
+		summarizeBy: none
+		sourceColumn: AnoMes Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnoMes
+		dataType: string
+		lineageTag: 7bb571c0-1c69-4bf1-b69e-b4196e29fc3d
+		summarizeBy: none
+		sourceColumn: AnoMes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Nome'
+		dataType: string
+		lineageTag: edeecb63-207a-4466-9a19-1d8fc92fd2d8
+		summarizeBy: none
+		sourceColumn: Mes Nome
+		sortByColumn: 'Mes Numero'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Abreviado'
+		dataType: string
+		lineageTag: fba57ff7-1a7f-41b0-b88d-f2580a690977
+		summarizeBy: none
+		sourceColumn: Mes Abreviado
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dia Semana Numero'
+		dataType: int64
+		formatString: 0
+		lineageTag: f5d4ff84-655e-4c6c-bbec-44bbbd754158
+		summarizeBy: none
+		sourceColumn: Dia Semana Numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column FimDeSemana
+		dataType: int64
+		formatString: 0
+		lineageTag: 6668af40-4eef-421f-955e-9691dba3d026
+		summarizeBy: none
+		sourceColumn: FimDeSemana
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiaUtil
+		dataType: int64
+		formatString: 0
+		lineageTag: ccc47a7c-8007-49aa-9db5-7829b412ade2
+		summarizeBy: none
+		sourceColumn: DiaUtil
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Inicio Mes'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: faa73b39-e916-4cdb-bbdc-7006b0737e92
+		summarizeBy: none
+		sourceColumn: Inicio Mes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Fim Mes'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f33a21f0-32af-49c8-96aa-d343987e7623
+		summarizeBy: none
+		sourceColumn: Fim Mes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Index Dia'
+		dataType: int64
+		formatString: 0
+		lineageTag: 73a23d2d-110c-4391-aba0-d593f4201199
+		summarizeBy: none
+		sourceColumn: Index Dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Index Mes'
+		dataType: int64
+		formatString: 0
+		lineageTag: b44f2420-8f8f-4848-ac3c-44f8213b823d
+		summarizeBy: none
+		sourceColumn: Index Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ano Atual'
+		dataType: int64
+		formatString: 0
+		lineageTag: d2e1b348-8911-48bd-9d09-9313cc501396
+		summarizeBy: none
+		sourceColumn: Ano Atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Atual'
+		dataType: int64
+		formatString: 0
+		lineageTag: 611a5a0c-9f52-4959-bad9-253bd5f7a256
+		summarizeBy: none
+		sourceColumn: Mes Atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesAnoExibicao
+		dataType: string
+		lineageTag: 95f91f47-f806-46d6-a674-08b2d8dc9fd9
+		summarizeBy: none
+		sourceColumn: MesAnoExibicao
+		sortByColumn: 'AnoMes Num'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_calendario = m
+		mode: import
+		source =
+				let
+				    // 🔹 Fonte (ajusta aqui)
+				    Fonte = #"transactions",
+				
+				    // 🔹 Garantir tipo data
+				    TipoData = Table.TransformColumnTypes(Fonte, {{"Date", type date}}),
+				
+				    // 🔹 Data mínima e máxima
+				    DataMin = Date.StartOfYear(List.Min(TipoData[Date])),
+				    DataMax = Date.EndOfYear(List.Max(TipoData[Date])),
+				
+				    // 🔹 Lista de datas
+				    ListaDatas = List.Dates(
+				        DataMin,
+				        Duration.Days(DataMax - DataMin) + 1,
+				        #duration(1,0,0,0)
+				    ),
+				
+				    Tabela = Table.FromList(ListaDatas, Splitter.SplitByNothing(), {"Date"}),
+				    Tipo = Table.TransformColumnTypes(Tabela, {{"Date", type date}}),
+				
+				    // 🔹 Base
+				    Ano = Table.AddColumn(Tipo, "Ano", each Date.Year([Date]), Int64.Type),
+				    MesNumero = Table.AddColumn(Ano, "Mes Numero", each Date.Month([Date]), Int64.Type),
+				    Dia = Table.AddColumn(MesNumero, "Dia", each Date.Day([Date]), Int64.Type),
+				
+				    AnoMesNum = Table.AddColumn(Dia, "AnoMes Num", each [Ano] * 100 + [Mes Numero], Int64.Type),
+				    AnoMes = Table.AddColumn(AnoMesNum, "AnoMes", each Date.ToText([Date], "yyyy-MM"), type text),
+				
+				    // 🔥 NOVA COLUNA (EXIBIÇÃO BONITA)
+				    MesAnoExibicao = Table.AddColumn(
+				        AnoMes,
+				        "MesAnoExibicao",
+				        each Date.ToText([Date], "MMM/yyyy", "pt-BR"),
+				        type text
+				    ),
+				
+				    // 🔹 Nomes
+				    MesNome = Table.AddColumn(MesAnoExibicao, "Mes Nome", each Date.ToText([Date], "MMMM", "pt-BR"), type text),
+				    MesAbrev = Table.AddColumn(MesNome, "Mes Abreviado", each Date.ToText([Date], "MMM", "pt-BR"), type text),
+				
+				    DiaSemanaNumero = Table.AddColumn(MesAbrev, "Dia Semana Numero", each Date.DayOfWeek([Date], Day.Monday) + 1, Int64.Type),
+				
+				    // 🔹 Flags
+				    FimDeSemana = Table.AddColumn(DiaSemanaNumero, "FimDeSemana", each if [Dia Semana Numero] >= 6 then 1 else 0, Int64.Type),
+				    DiaUtil = Table.AddColumn(FimDeSemana, "DiaUtil", each if [Dia Semana Numero] < 6 then 1 else 0, Int64.Type),
+				
+				    // 🔹 Início/Fim
+				    InicioMes = Table.AddColumn(DiaUtil, "Inicio Mes", each Date.StartOfMonth([Date]), type date),
+				    FimMes = Table.AddColumn(InicioMes, "Fim Mes", each Date.EndOfMonth([Date]), type date),
+				
+				    // 🔹 Índices
+				    IndexDia = Table.AddColumn(FimMes, "Index Dia", each Duration.Days([Date] - DataMin), Int64.Type),
+				    IndexMes = Table.AddColumn(IndexDia, "Index Mes", each ([Ano] - Date.Year(DataMin)) * 12 + [Mes Numero], Int64.Type),
+				
+				    // 🔹 Hoje
+				    Hoje = Date.From(DateTime.LocalNow()),
+				    AnoAtual = Table.AddColumn(IndexMes, "Ano Atual", each if [Ano] = Date.Year(Hoje) then 1 else 0, Int64.Type),
+				    MesAtual = Table.AddColumn(AnoAtual, "Mes Atual", each if [Ano] = Date.Year(Hoje) and [Mes Numero] = Date.Month(Hoje) then 1 else 0, Int64.Type)
+				
+				in
+				    MesAtual
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

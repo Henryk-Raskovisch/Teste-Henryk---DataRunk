@@ -1,0 +1,146 @@
+table alerts
+	lineageTag: 3ce34f62-812b-425b-b7e8-8b0f95a775c2
+
+	column alert_id
+		dataType: string
+		lineageTag: 44ae774d-0719-4ec4-a8f4-d6115434714d
+		summarizeBy: none
+		sourceColumn: alert_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column alert_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 86f4d952-9503-4fdc-9112-5bf28dede22d
+		summarizeBy: none
+		sourceColumn: alert_timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 570dd24c-c9ad-49d4-a175-bddf5d025b8a
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 5ec9ce7d-f4d3-456e-bd6a-25db49a2049f
+		summarizeBy: none
+		sourceColumn: Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: d0cba4c5-d554-44ec-85dd-479a1c20c23f
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_id
+		dataType: string
+		lineageTag: c79fc949-a896-446a-910c-2240b3145b90
+		summarizeBy: none
+		sourceColumn: transaction_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 54c7ac45-bd14-4a2c-a74c-2cf10786cc33
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column alert_type
+		dataType: string
+		lineageTag: 250b7888-1377-459c-b0e0-9fb54d3432be
+		summarizeBy: none
+		sourceColumn: alert_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column severity
+		dataType: string
+		lineageTag: dcefb42a-c211-4c95-99af-b7051dd95d7b
+		summarizeBy: none
+		sourceColumn: severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column alert_source
+		dataType: string
+		lineageTag: 7b0b750f-b01d-41d4-8379-a66977f83ed0
+		summarizeBy: none
+		sourceColumn: alert_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column resolved
+		dataType: int64
+		formatString: 0
+		lineageTag: 4fc2fbc9-0ac8-49d7-9632-ed3279c7d0f6
+		summarizeBy: sum
+		sourceColumn: resolved
+
+		annotation SummarizationSetBy = Automatic
+
+	column resolution_time_hours
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a4cb41b-9f78-4fb7-8abb-5675ca8361e3
+		summarizeBy: sum
+		sourceColumn: resolution_time_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column analyst_action
+		dataType: string
+		lineageTag: 6413d393-009d-456e-be3d-a585ddf06f55
+		summarizeBy: none
+		sourceColumn: analyst_action
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Período do Dia'
+		dataType: string
+		lineageTag: 88e0c4e5-2609-4eca-82ba-c6e045e84ccc
+		summarizeBy: none
+		sourceColumn: Período do Dia
+
+		annotation SummarizationSetBy = Automatic
+
+	partition alerts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\rasko\OneDrive\Área de Trabalho\DataRunk\alerts.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"alert_id", type text}, {"alert_timestamp", type datetime}, {"transaction_id", type text}, {"customer_id", type text}, {"alert_type", type text}, {"severity", type text}, {"alert_source", type text}, {"resolved", Int64.Type}, {"resolution_time_hours", Int64.Type}, {"analyst_action", type text}}),
+				    #"Inserted Date" = Table.AddColumn(#"Changed Type", "Date", each DateTime.Date([alert_timestamp]), type date),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Inserted Date",{"alert_id", "alert_timestamp", "Date", "transaction_id", "customer_id", "alert_type", "severity", "alert_source", "resolved", "resolution_time_hours", "analyst_action"}),
+				    #"Inserted Time" = Table.AddColumn(#"Reordered Columns", "Time", each DateTime.Time([alert_timestamp]), type time),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Inserted Time",{"alert_id", "alert_timestamp", "Date", "Time", "transaction_id", "customer_id", "alert_type", "severity", "alert_source", "resolved", "resolution_time_hours", "analyst_action"}),
+				    #"Inserted Hour" = Table.AddColumn(#"Reordered Columns1", "Hour", each Time.Hour([alert_timestamp]), Int64.Type),
+				    #"Reordered Columns2" = Table.ReorderColumns(#"Inserted Hour",{"alert_id", "alert_timestamp", "Date", "Time", "Hour", "transaction_id", "customer_id", "alert_type", "severity", "alert_source", "resolved", "resolution_time_hours", "analyst_action"}),
+				    #"Added Custom" = Table.AddColumn(#"Reordered Columns2", "Período do Dia", each if [Hour] < 6 then "Madrugada" else if [Hour] < 12 then "Manhã" else if [Hour] < 18 then "Tarde" else "Noite")
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

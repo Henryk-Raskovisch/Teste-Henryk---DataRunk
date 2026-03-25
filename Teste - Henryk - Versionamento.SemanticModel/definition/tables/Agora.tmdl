@@ -1,0 +1,32 @@
+table Agora
+	lineageTag: 46cafd59-1340-4b6b-bb5a-4be7b59335ee
+
+	column DataHoraAtualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f735a33c-1388-4734-bbd8-eb8e3c1db02f
+		summarizeBy: none
+		sourceColumn: DataHoraAtualizacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Agora = m
+		mode: import
+		source =
+				let
+				    __UtcAgora = DateTimeZone.UtcNow(),
+				    __FusoBrasil = DateTimeZone.SwitchZone(__UtcAgora, -3),
+				    __DataHoraAtualizacao = DateTimeZone.RemoveZone(__FusoBrasil),
+				    Fonte = #table(
+				        type table [DataHoraAtualizacao = datetime],
+				        {
+				            { __DataHoraAtualizacao }
+				        }
+				    )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

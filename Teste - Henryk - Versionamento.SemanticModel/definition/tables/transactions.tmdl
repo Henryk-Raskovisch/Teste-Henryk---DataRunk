@@ -1,0 +1,235 @@
+table transactions
+	lineageTag: 2d8a06fd-c520-41a1-9ed7-58b6ce67ba68
+
+	column transaction_id
+		dataType: string
+		lineageTag: 0dccfb77-0eb7-4307-8b31-5f7ba3c49155
+		summarizeBy: none
+		sourceColumn: transaction_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: be0bef03-6be7-464d-ab59-a91db13c4815
+		summarizeBy: none
+		sourceColumn: timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cbe3f85e-c5a2-412d-a7fc-df96749d982d
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 5087960a-a39c-4bcd-b884-9eea35334c30
+		summarizeBy: none
+		sourceColumn: Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 0302ee68-580d-4a77-a200-56401345fa0d
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 88626933-9604-47bf-ad3a-24cac09ee150
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 276278e4-2b39-4bb0-8a87-899b451f3a43
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column merchant_id
+		dataType: string
+		lineageTag: 76b29bf0-8bec-41f8-95bc-a30c8478444c
+		summarizeBy: none
+		sourceColumn: merchant_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column merchant_category
+		dataType: string
+		lineageTag: ddfdebeb-539e-44f5-88ac-1d0a1173d27b
+		summarizeBy: none
+		sourceColumn: merchant_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column amount
+		dataType: int64
+		formatString: 0
+		lineageTag: 05db49df-a5cb-45e3-9b97-431af947550c
+		summarizeBy: sum
+		sourceColumn: amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_type
+		dataType: string
+		lineageTag: 492c8253-a13b-4d54-a8b8-73ab6b72a965
+		summarizeBy: none
+		sourceColumn: transaction_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel
+		dataType: string
+		lineageTag: 82db214c-00d4-48aa-b589-07ce14faa5ab
+		summarizeBy: none
+		sourceColumn: channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_fingerprint
+		dataType: string
+		lineageTag: 223277a8-c8df-415d-b6cb-f8f6931af471
+		summarizeBy: none
+		sourceColumn: device_fingerprint
+
+		annotation SummarizationSetBy = Automatic
+
+	column ip_address
+		dataType: string
+		lineageTag: 5378f930-9b9b-42e3-8c1f-2377e050ace3
+		summarizeBy: none
+		sourceColumn: ip_address
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 06318cd2-82cc-4494-9eb1-3c6fe0d7d247
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_flagged
+		dataType: int64
+		formatString: 0
+		lineageTag: 0dc573b2-5516-48b9-b834-a7327a6748b2
+		summarizeBy: sum
+		sourceColumn: is_flagged
+
+		annotation SummarizationSetBy = Automatic
+
+	column fraud_confirmed
+		dataType: int64
+		formatString: 0
+		lineageTag: c8938090-4587-4076-a96b-beabe1ef4401
+		summarizeBy: sum
+		sourceColumn: fraud_confirmed
+
+		annotation SummarizationSetBy = Automatic
+
+	column response_time_ms
+		dataType: int64
+		formatString: 0
+		lineageTag: c5f4e9de-0cad-41d2-bf71-9db10d6f2ae9
+		summarizeBy: sum
+		sourceColumn: response_time_ms
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: e338e0e4-54e3-4442-96e0-985be22211a0
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Período do Dia'
+		dataType: string
+		lineageTag: 87a224cd-ebdd-4ea5-8788-fb5467b43b92
+		summarizeBy: none
+		sourceColumn: Período do Dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_fraude
+		dataType: string
+		lineageTag: 20b5157b-8921-4a83-b788-2914362fe5a3
+		summarizeBy: none
+		sourceColumn: status_fraude
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_null
+		dataType: string
+		lineageTag: 6e09b717-38ac-4de0-ae3e-7b8307cfd846
+		summarizeBy: none
+		sourceColumn: device_null
+
+		annotation SummarizationSetBy = Automatic
+
+	column outlier
+		dataType: string
+		lineageTag: a2d0fee3-2b63-4011-95e2-f44ebf08c341
+		summarizeBy: none
+		sourceColumn: outlier
+
+		annotation SummarizationSetBy = Automatic
+
+	column response_category
+		dataType: string
+		lineageTag: 4d37c178-6a7a-45c1-9ca5-7d4088b2ba0b
+		summarizeBy: none
+		sourceColumn: response_category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition transactions = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\rasko\OneDrive\Área de Trabalho\DataRunk\transactions.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"transaction_id", type text}, {"timestamp", type datetime}, {"customer_id", type text}, {"merchant_id", type text}, {"merchant_category", type text}, {"amount", Int64.Type}, {"transaction_type", type text}, {"channel", type text}, {"device_fingerprint", type text}, {"ip_address", type text}, {"status", type text}, {"is_flagged", Int64.Type}, {"fraud_confirmed", Int64.Type}, {"response_time_ms", Int64.Type}, {"state", type text}}),
+				    #"Inserted Date" = Table.AddColumn(#"Changed Type", "Date", each DateTime.Date([timestamp]), type date),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Inserted Date",{"transaction_id", "timestamp", "Date", "customer_id", "merchant_id", "merchant_category", "amount", "transaction_type", "channel", "device_fingerprint", "ip_address", "status", "is_flagged", "fraud_confirmed", "response_time_ms", "state"}),
+				    #"Inserted Time" = Table.AddColumn(#"Reordered Columns", "Time", each DateTime.Time([timestamp]), type time),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Inserted Time",{"transaction_id", "timestamp", "Date", "Time", "customer_id", "merchant_id", "merchant_category", "amount", "transaction_type", "channel", "device_fingerprint", "ip_address", "status", "is_flagged", "fraud_confirmed", "response_time_ms", "state"}),
+				    #"Inserted Hour" = Table.AddColumn(#"Reordered Columns1", "Hour", each Time.Hour([timestamp]), Int64.Type),
+				    #"Reordered Columns2" = Table.ReorderColumns(#"Inserted Hour",{"transaction_id", "timestamp", "Date", "Time", "Hour", "customer_id", "merchant_id", "merchant_category", "amount", "transaction_type", "channel", "device_fingerprint", "ip_address", "status", "is_flagged", "fraud_confirmed", "response_time_ms", "state"}),
+				    #"Inserted Day Name" = Table.AddColumn(#"Reordered Columns2", "Day Name", each Date.DayOfWeekName([timestamp]), type text),
+				    #"Reordered Columns3" = Table.ReorderColumns(#"Inserted Day Name",{"transaction_id", "timestamp", "Date", "Time", "Day Name", "Hour", "customer_id", "merchant_id", "merchant_category", "amount", "transaction_type", "channel", "device_fingerprint", "ip_address", "status", "is_flagged", "fraud_confirmed", "response_time_ms", "state"}),
+				    #"Added Custom" = Table.AddColumn(#"Reordered Columns3", "Período do Dia", each if [Hour] < 6 then "Madrugada" else if [Hour] < 12 then "Manhã" else if [Hour] < 18 then "Tarde" else "Noite"),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "status_fraude", each if [fraud_confirmed] = 1 then "Fraude" else if [fraud_confirmed] = 0 then "Legítimo" else "Não Investigado"),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "device_null", each if [device_fingerprint] = "" then 1 else 0),
+				    #"Sorted Rows" = Table.Sort(#"Added Custom2",{{"amount", Order.Descending}}),
+				    #"Added Custom3" = Table.AddColumn(#"Sorted Rows", "outlier", each if [amount] > 500000 then 1 else 0),
+				    #"Added Custom4" = Table.AddColumn(#"Added Custom3", "response_category", each if [response_time_ms] < 200 then "Rápido" else if [response_time_ms] < 1000 then "Médio" else "Lento")
+				in
+				    #"Added Custom4"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

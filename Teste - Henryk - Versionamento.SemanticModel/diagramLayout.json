@@ -1,0 +1,112 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 246.49577917412856
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1082.9327876890134,
+            "y": 404.30838138577013
+          },
+          "nodeIndex": "alerts",
+          "nodeLineageTag": "3ce34f62-812b-425b-b7e8-8b0f95a775c2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 261.51690835978849,
+            "y": 367.96605496907171
+          },
+          "nodeIndex": "customers",
+          "nodeLineageTag": "196cecc5-9fd0-459b-ba55-d03ea753a01c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 598.75547572847222,
+            "y": 661.86656071183222
+          },
+          "nodeIndex": "transactions",
+          "nodeLineageTag": "2d8a06fd-c520-41a1-9ed7-58b6ce67ba68",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1097.5153735864644,
+            "y": 808.84885026091308
+          },
+          "nodeIndex": "Medidas",
+          "nodeLineageTag": "f7e77031-c871-4536-9e28-2af56b161b61",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 619.10640113565819,
+            "y": 1118.5149465873565
+          },
+          "nodeIndex": "Dim_calendario",
+          "nodeLineageTag": "cea0d71e-dc1e-4d2a-b7b2-01aa9e6077d4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1119.998465226676,
+            "y": 677.700031903071
+          },
+          "nodeIndex": "Agora",
+          "nodeLineageTag": "46cafd59-1340-4b6b-bb5a-4be7b59335ee",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1142.4815568668876,
+            "y": 583.92979746549963
+          },
+          "nodeIndex": "blank zero",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 63.287087723234038,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

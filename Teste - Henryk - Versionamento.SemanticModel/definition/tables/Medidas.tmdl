@@ -1,0 +1,299 @@
+table Medidas
+	lineageTag: f7e77031-c871-4536-9e28-2af56b161b61
+
+	measure 'Taxa fraude (%)' =
+			
+			DIVIDE(
+			    CALCULATE(COUNTROWS(transactions), transactions[status_fraude] = "Fraude"),
+			    CALCULATE(COUNTROWS(transactions), transactions[status_fraude] <> "Não Investigado")
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 668c8fe3-ba1c-4ab4-b9b3-f49a5755308e
+
+	measure 'Valor Fraudado' =
+			
+			CALCULATE(
+			    SUM(transactions[amount]),
+			    transactions[status_fraude] = "Fraude"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: e11ebfa9-8faa-4b45-b566-6aaf0df5a80f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Top Periodo' =
+			
+			VAR Tabela =
+			    ADDCOLUMNS(
+			        VALUES(transactions[Período do Dia]),
+			        "Taxa", [Taxa Fraude (%)]
+			    )
+			
+			VAR Top1 =
+			    TOPN(1, Tabela, [Taxa], DESC)
+			
+			RETURN
+			    MAXX(Top1, transactions[Período do Dia])
+		lineageTag: 703649dd-a8d8-4918-8816-50fce67bdce8
+
+	measure 'Top Tipo Fraude' =
+			
+			VAR Tabela =
+			    ADDCOLUMNS(
+			        VALUES(transactions[transaction_type]),
+			        "Taxa", [Taxa Fraude (%)]
+			    )
+			
+			VAR Top1 =
+			    TOPN(1, Tabela, [Taxa], DESC)
+			
+			RETURN
+			    MAXX(Top1, transactions[transaction_type])
+		lineageTag: 8485a4cb-85ed-402b-b593-c48f0f78c334
+
+	measure 'Top Merchant Fraude' =
+			
+			VAR Tabela =
+			    ADDCOLUMNS(
+			        VALUES(transactions[merchant_category]),
+			        "Taxa", [Taxa Fraude (%)]
+			    )
+			
+			VAR Top1 =
+			    TOPN(1, Tabela, [Taxa], DESC)
+			
+			RETURN
+			    MAXX(Top1, transactions[merchant_category])
+		lineageTag: e77d141a-5cb5-4df1-a588-052c81e0b79d
+
+	measure 'TXT analise exploratoria' = "Análise Exploratória"
+		lineageTag: 5000e70e-85c9-4db3-bfff-3a9b6ad7523b
+
+	measure 'TXT visao geral' = "Monitoramento Antifraude — Visão Geral"
+		lineageTag: 1fc228f3-2d3d-433a-a42d-d8d01db20cba
+
+	measure 'Qtd transacoes' = COUNTROWS(transactions)
+		formatString: #,0
+		lineageTag: ad203e73-5f5f-43be-b8b0-206e95c771fe
+
+	measure 'Valor total' = SUM(transactions[amount])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 4087dd45-0146-4d78-baf1-2a09d7e19f60
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Qtd fraudes' =
+			
+			CALCULATE(
+			    COUNTROWS(transactions),
+			    transactions[status_fraude] = "Fraude"
+			)
+		formatString: 0
+		lineageTag: c7f61d1d-b62d-46d4-a55c-75681e1e6bff
+
+	measure 'Qtd investigadas' =
+			
+			CALCULATE(
+			    COUNTROWS(transactions),
+			    transactions[status_fraude] <> "Não Investigado"
+			)
+		formatString: 0
+		lineageTag: 773c3d10-5c9c-4eda-a186-58bde515b4e7
+
+	measure '% fraude' =
+			
+			DIVIDE(
+			    [Qtd Fraudes],
+			    [Qtd Investigadas]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cc75df9b-ede7-467c-b3e2-c21f5196ca82
+
+	measure 'Qtd nao investigadas' =
+			
+			CALCULATE(
+			    COUNTROWS(transactions),
+			    transactions[status_fraude] = "Não Investigado"
+			)
+		formatString: 0
+		lineageTag: c67573f4-c5d2-477e-a7e4-cf835085cf50
+
+	measure '% nao investigadas' =
+			
+			DIVIDE(
+			    [Qtd nao investigadas],
+			    [Qtd transacoes]
+			)
+		lineageTag: 103847f1-251b-4c50-ba19-502b1bb1047a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Variação Fraude (%)' =
+			
+			VAR Atual = [Taxa Fraude (%)]
+			VAR Anterior =
+			    CALCULATE(
+			        [Taxa Fraude (%)],
+			        DATEADD(transactions[Date], -1, MONTH)
+			    )
+			
+			RETURN
+			Atual - Anterior
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8fa6e079-e5e3-46fa-b603-df3efc9f701f
+
+	measure 'TXT Periodo filtrado' =
+			
+			IF(
+			    HASONEVALUE(Dim_Calendario[Ano]),
+			    "Período Filtrado: " & MAX(Dim_Calendario[Ano]),
+			    "Período Filtrado: " & MIN(Dim_Calendario[Ano]) & " - " & MAX(Dim_Calendario[Ano])
+			)
+		lineageTag: 950b226d-fd31-43ed-90a6-bf4633da859e
+
+	measure 'Atualizado em' =
+			
+			VAR _DataHora =
+			    MAX (Agora[DataHoraAtualizacao])
+			RETURN
+			    "Atualizado em: "
+			        & FORMAT (_DataHora, "dd/MM/yyyy HH:mm:ss")
+		lineageTag: 7435355b-4f0a-4f71-94fc-0c4ee59c8691
+
+	measure 'Valor Investigado' =
+			
+			CALCULATE(
+			    SUM(transactions[amount]),
+			    transactions[status_fraude] <> "Não Investigado"
+			)
+		formatString: #,0
+		lineageTag: 31ad1516-695e-49cf-8003-c76d21535499
+
+	measure 'Taxa Fraude Valor (%)' =
+			
+			DIVIDE(
+			    [Valor Fraudado],
+			    [Valor Investigado]
+			)
+		lineageTag: 96f0f265-b1f5-46ba-a905-f56494fed244
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top Tipo Transação' =
+			
+			VAR Tabela =
+			    ADDCOLUMNS(
+			        VALUES(transactions[transaction_type]),
+			        "Taxa", [Taxa Fraude (%)]
+			    )
+			RETURN
+			MAXX(
+			    TOPN(1, Tabela, [Taxa], DESC),
+			    transactions[transaction_type]
+			)
+		lineageTag: f3d67e83-d83c-4e7a-87ed-ed876f3dccaf
+
+	measure 'TXT titulo2' = "Análise de Fraude por Segmento"
+		lineageTag: c0c50e52-6229-45d4-9666-c2aefc84647e
+
+	measure 'TXT Resumo Analise Segmento' =
+			
+			VAR TipoFormatado =
+			    SWITCH(
+			        [Top Tipo Transação],
+			        "cartao_credito", "cartão de crédito",
+			        "cartao_debito", "cartão de débito",
+			        "app_mobile", "app mobile",
+			        "internet_banking", "internet banking",
+			        [Top Tipo Transação]
+			    )
+			
+			VAR CanalFormatado =
+			    SWITCH(
+			        [Top Canal],
+			        "app_mobile", "app mobile",
+			        "internet_banking", "internet banking",
+			        "caixa_eletronico", "caixa eletrônico",
+			        [Top Canal]
+			    )
+			
+			RETURN
+			"Foi identificada maior concentração de fraudes no período da "
+			& [Top Periodo]
+			& ", especialmente em transações do tipo "
+			& TipoFormatado
+			& " e no canal "
+			& CanalFormatado
+			& ", indicando maior exposição ao risco nesses contextos."
+		lineageTag: 96815842-8c9f-4758-b19a-d0e3d6129162
+
+	measure 'Top Canal' =
+			
+			VAR Tabela =
+			    ADDCOLUMNS(
+			        VALUES(transactions[channel]),
+			        "Taxa", [Taxa Fraude (%)]
+			    )
+			RETURN
+			MAXX(
+			    TOPN(1, Tabela, [Taxa], DESC),
+			    transactions[channel]
+			)
+		lineageTag: b18db6c5-905d-449d-998c-58f3567c251f
+
+	measure 'TXT Titulo3' = "Clientes e Perfil de Risco"
+		lineageTag: d709f2e4-cf9a-40b6-aa02-f4d9da9d9e00
+
+	measure 'Top Account Tier' =
+			
+			VAR Tabela =
+			    ADDCOLUMNS(
+			        VALUES(customers[account_tier]),
+			        "ValorFraude", [Valor Fraudado]
+			    )
+			RETURN
+			MAXX(
+			    TOPN(1, Tabela, [ValorFraude], DESC),
+			    customers[account_tier]
+			)
+		lineageTag: 0b475df6-03a2-432b-b5cc-bdac0d8ff9ba
+
+	measure 'Resumo Clientes Risco' =
+			
+			"Observa-se que clientes com alto risk_score concentram a maior parte do valor fraudado, com destaque para o segmento "
+			& [Top Account Tier]
+			& ", reforçando a relação entre maior risco e maior incidência de fraude."
+		lineageTag: 8c0038f7-bf3a-4a65-b948-b4198d46bf18
+
+	measure 'Clientes com Fraude' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(transactions[customer_id]),
+			    transactions[status_fraude] = "Fraude"
+			)
+		formatString: 0
+		lineageTag: 594a6717-68c5-474e-9222-8126238f8708
+
+	measure 'Ticket Médio Fraude' =
+			
+			DIVIDE(
+			    [Valor Fraudado],
+			    [Qtd Fraudes]
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 1d17ffa0-be3a-474e-bb4b-09cddc477566
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
